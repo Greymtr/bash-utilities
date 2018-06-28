@@ -1,5 +1,6 @@
 # bash-utilities
 Collection of bash scripts for simple tasks
+------
 
 
 *del* : fetches input from stdin and deletes all occurence of the first argument
