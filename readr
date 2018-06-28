@@ -1,0 +1,11 @@
+
+readr () {
+
+  piped_text=$(cat)
+  echo "$piped_text" | grep "$1:" | del "$1:"
+
+}
+
+readr "$@"  
+
+

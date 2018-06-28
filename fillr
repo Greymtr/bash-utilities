@@ -1,0 +1,8 @@
+fillr()
+{
+  a="$(cat)"
+  echo "$a" | rep "$1:" "$1:$2"
+
+}
+
+fillr "$@"
