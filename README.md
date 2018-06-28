@@ -1,6 +1,7 @@
-# bash* utilities
-##Collection of bash scripts for simple tasks
-___
+# bash-utilities
+
+## Collection of bash scripts for simple tasks
+
 
 
 * **del** : fetches input from stdin and deletes all occurence of the first argument
@@ -14,3 +15,5 @@ ___
 * **serve** : serves a document [ first arguement ] on a specified port [ second argument ] over https using netcat
 
 * **title** : fetches the title of webpage [ url as first argument ]  
+
+
