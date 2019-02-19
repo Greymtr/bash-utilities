@@ -2,7 +2,7 @@
 
 ## Collection of bash scripts for simple tasks
 
-
+### string-manipulation
 
 * **del** : fetches input from stdin and deletes all occurence of the first argument
 
@@ -12,7 +12,9 @@
 
 * **rep** : fetches input from stdin and replaces all occurences of first arguement with second argument
 
-* **serve** : serves a document [ first arguement ] on a specified port [ second argument ] over https using netcat
+### networking
+
+* **serve** : serves a document [ first arguement ] on a specified port [ second argument ] over http using netcat
 
 * **title** : fetches the title of webpage [ url as first argument ]  
 
