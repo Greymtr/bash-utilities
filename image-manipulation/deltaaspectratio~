@@ -1,0 +1,49 @@
+#!/bin/bash
+
+del () {
+a=$(cat)
+echo "${a//$1/}"
+}
+
+
+
+#deltaaspectratio
+#script that resizes images to squares.
+
+#------------------------
+
+#USAGE : 
+#./deltaaspectratio input.png output.png
+
+#------------------------
+
+#input file   =  first argument
+#output file  =  second argument
+
+#Get Width, Breadth of image
+
+width=$( identify $1 | cut -f3 -d" " | del x* )
+breadth=$(identify $1 | cut -f3 -d" " | del *x)
+
+#echo "width=$width"
+#echo "breadth=$breadth"
+
+
+#------------------------
+
+#comparing width and breadth and storing greater one.
+
+max=$(( width > breadth ? width : breadth ))
+#echo "max=$max"
+
+#------------------------
+
+#making the size variable of the required format.
+
+size=$(echo "$max x $max" | del " " )
+echo "size=$size"
+
+#------------------------
+
+#resizes image to square, fills empty spaces with white.
+convert $1 -resize $size -gravity center -background "rgb(255,255,255)" -extent $size $2
