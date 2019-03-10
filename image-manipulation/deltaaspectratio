@@ -6,7 +6,7 @@
 #script that resizes images to squares.
 
 
-#./
+#./deltaaspectratio input.png output.png
 
 #input file   =  first argument
 #output file  =  second argument
