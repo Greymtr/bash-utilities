@@ -1,6 +1,8 @@
 # bash-utilities
 
-## Collection of bash scripts for simple tasks
+### Collection of bash scripts for simple tasks
+
+* **deltaaspectratio** : accepts image file [ first argument ] and generates an output file [ second argument ] with a 1:1 aspect ratio. fills in blank spaces with white. 
 
 ### string-manipulation
 
