@@ -1,5 +1,10 @@
 #!/bin/bash
 
+del () {
+a=$(cat)
+echo "${a//$1/}"
+}
+
 
 
 #deltaaspectratio
