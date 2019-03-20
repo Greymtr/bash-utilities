@@ -22,4 +22,8 @@
 
 * **title** : fetches the title of webpage [ url as first argument ]  
 
+### web
+
+* **form** : generates a form using the format specified in the file
+
 
