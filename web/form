@@ -40,8 +40,25 @@ INPUTFORM
 
 outputtemplate="
 
+<html>
 
+	<head>
+		<title>TITLE</title>
+	</head>
+	
+	<body>
+		
+		<h1>TITLE</h1>
+		
+		<p>DESC</p>
+		
+		<form>
+		FORM
+		</form>
+		
+	</body>
 
+</html>
 "
 
 
@@ -65,12 +82,8 @@ do
 	$inputfield=$( echo $line | del "[" | del "|*]" )
 	
 	
-	echo 
 	
 done < "$fields"
 
 
 
-echo "
-
-<html>
