@@ -1,7 +1,7 @@
 #USAGE : form inputfile outputfile
 
 
-# INPUT FILE TEMPLATE
+#INPUT FILE TEMPLATE
 
 #TITLE:Title of the Form Page
 #DESC:Description about form
@@ -10,14 +10,14 @@
 
 
 
-$desc=cat $1 | readr DESC
-$title=cat $1 | readr TITLE
-$fields=cat $1 | readr FIELDS
+$desc=$(cat $1 | readr DESC)
+$title=$(cat $1 | readr TITLE)
+$fields=$(cat $1 | readr FIELDS)
 
 
 #store fields seperately on different lines
-$fields=echo "$fields" | rep "," "
-"
+$fields=$(echo "$fields" | rep "," "
+")
 
 
 #this isn't even my
@@ -75,7 +75,6 @@ do
 	$inputform=$( echo $line | rep "[" "<input type="text" name=\"$id\">" | del "|*]" )
 	
 	#getting input descriptor
-	
 	$inputdescriptor=$( echo $line | del "[*|" | del "]")
 	
 	#getting field
