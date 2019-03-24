@@ -101,3 +101,4 @@ del FORM |
 rep DESC "$desc" |
 rep TITLE "$title" > $2
 
+rm .tmp
