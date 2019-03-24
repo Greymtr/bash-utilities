@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 #USAGE : form inputfile outputfile
 #INPUT FILE TEMPLATE : the file "i" is sample input , but basic template :
@@ -53,7 +53,10 @@ outputtemplate="
 		<p>DESC</p>
 		
 		<form>
-		FORM
+		  FORM
+                  <br>
+                  <input id="submitbutton" type=\"submit\" value=\"Submit\">
+
 		</form>
 		
 	</body>
@@ -94,7 +97,7 @@ do
 done < .tmp
 
 echo "$outputtemplate" |
+del FORM |
 rep DESC "$desc" |
-rep TITLE "$title" |
-del FORM > $2
+rep TITLE "$title" > $2
 
