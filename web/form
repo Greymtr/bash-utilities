@@ -1,22 +1,22 @@
+#!/usr/bin/bash
+
 #USAGE : form inputfile outputfile
+#INPUT FILE TEMPLATE : the file "i" is sample input , but basic template :
 
-
-#INPUT FILE TEMPLATE
-
-#TITLE:Title of the Form Page
-#DESC:Description about form
-#FIELDS:[ field1 | field 1 description ], [ field2 | field2 description ], [ field3 description ]
+#   TITLE:Title of the Form Page
+#   DESC:Description about form
+#   FIELDS:[ field1 | field 1 description ], [ field2 | field2 description ], [ field3 description ]
 #
 
 
 
-$desc=$(cat $1 | readr DESC)
-$title=$(cat $1 | readr TITLE)
-$fields=$(cat $1 | readr FIELDS)
+desc="$(cat $1 | readr DESC)"
+title="$(cat $1 | readr TITLE)"
+fields="$(cat $1 | readr FIELDS)"
 
 
 #store fields seperately on different lines
-$fields=$(echo "$fields" | rep "," "
+fields=$(echo "$fields" | rep "," "
 ")
 
 
@@ -27,10 +27,10 @@ finalform=""
 #INPUT TEMPLATE :
 
 inputtemplate="
-<div>
-<h3>FIELD</h3>
+<div class=\"fieldelement\">
+<h3 class=\"fieldname\">FIELD</h3>
 
-<p>DESCRIPTOR</p>
+<p class=\"fielddesc\" >DESCRIPTOR</p>
 
 INPUTFORM
 
@@ -65,24 +65,36 @@ outputtemplate="
 
 #process all fields, one by one
 
+echo "$fields" > .tmp
+
 while read line; 
 do 
 
 	#storing id, removing spaces.
-	$id=$( echo $line | del "[" | del "|*]" | rep " " "_" )
+	id=$( echo $line | del "[" | del "|*]" | rep " " "_" )
 	
 	#html form creation with id
-	$inputform=$( echo $line | rep "[" "<input type="text" name=\"$id\">" | del "|*]" )
+	inputform=$( echo "<input class=\"field\" type="text" name=\"$id\">")
+
 	
 	#getting input descriptor
-	$inputdescriptor=$( echo $line | del "[*|" | del "]")
+	inputfielddescriptor=$( echo $line | del "*|" | del "]")
+
 	
 	#getting field
-	$inputfield=$( echo $line | del "[" | del "|*]" )
+	inputfieldname=$( echo $line | del "[" | del "|*]" )
 	
+	tempform=$( echo $inputtemplate | rep FIELD "$inputfieldname" | rep DESCRIPTOR "$inputfielddescriptor" | rep INPUTFORM "$inputform" )
 	
-	
-done < "$fields"
+	outputtemplate=$( echo $outputtemplate | rep FORM "$tempform
 
+		FORM")
+	
+	
+done < .tmp
 
+echo "$outputtemplate" |
+rep DESC "$desc" |
+rep TITLE "$title" |
+del FORM > $2
 
