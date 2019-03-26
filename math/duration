@@ -1,43 +1,56 @@
 #!/bin/bash
 
+#USAGE:
 #duration start:time end:time
 
-start=$1
-end=$2
+duration() {
+  
+  start=$1
+	end=$2
 
 
-starthour=$( echo $start | cut -f1 -d: )
-startminute=$( echo $start | cut -f2 -d: )
-#---
-#startsecond=$( echo $start | cut -f3 -d: )
-startsecond=0
+	starthour=$( echo $start | cut -f1 -d: )
+	startminute=$( echo $start | cut -f2 -d: )
+	#---
+	#startsecond=$( echo $start | cut -f3 -d: )
+	startsecond=0
 
-endhour=$( echo $end | cut -f1 -d: )
-endminute=$( echo $end | cut -f2 -d: )
-#endsecond=$( echo $end | cut -f3 -d: )
-endsecond=0
+	endhour=$( echo $end | cut -f1 -d: )
+	endminute=$( echo $end | cut -f2 -d: )
+	#endsecond=$( echo $end | cut -f3 -d: )
+	endsecond=0
 
 
-time1=$( echo "$starthour * 60 * 60 + $startminute * 60  + $startsecond" | bc )
-time2=$( echo "$endhour * 60 * 60 + $endminute * 60  + $endsecond" | bc )
+	time1=$( echo "$starthour * 60 * 60 + $startminute * 60  + $startsecond" | bc )
+	time2=$( echo "$endhour * 60 * 60 + $endminute * 60  + $endsecond" | bc )
 
-difference=$(echo $time1 - $time2 | bc -l )
+	difference=$(echo $time1 - $time2 | bc -l )
 
-#easiest way to get absolute value xD
-# sqrt(a*a)
-difference=$( echo "sqrt( ($difference) * ($difference) )" | bc )
+	#easiest way to get absolute value xD
+	# sqrt(a*a)
+	difference=$( echo "sqrt( ($difference) * ($difference) )" | bc )
 
-hour=$( echo "$difference / 3600" | bc )
-minutes=$( echo "0 + $difference % 3600" | bc )
+	hour=$( echo "$difference / 3600" | bc )
+	minutes=$( echo "0 + $difference % 3600" | bc )
 
-if [ $minutes -eq 0 ]
-then
-	minutes=00
-fi
 
-if [ $hour -lt 10 ]
-then
-	hour=0$hour
-fi
+	#FORMATTING
 
-echo "$hour:$minutes"
+	if [ $minutes -eq 0 ]
+	then
+		minutes=00
+	fi
+
+	if [ $hour -lt 10 ]
+	then
+		hour=0$hour
+	fi
+
+
+	#OUTPUT
+
+	echo "$hour:$minutes"
+
+}
+
+duration "$@"
