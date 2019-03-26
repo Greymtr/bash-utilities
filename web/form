@@ -8,97 +8,101 @@
 #   FIELDS:[ field1 | field 1 description ], [ field2 | field2 description ], [ field3 description ]
 #
 
+form() {
+
+	desc="$(cat $1 | readr DESC)"
+	title="$(cat $1 | readr TITLE)"
+	fields="$(cat $1 | readr FIELDS)"
 
 
-desc="$(cat $1 | readr DESC)"
-title="$(cat $1 | readr TITLE)"
-fields="$(cat $1 | readr FIELDS)"
+	#store fields seperately on different lines
+	fields=$(echo "$fields" | rep "," "
+	")
 
 
-#store fields seperately on different lines
-fields=$(echo "$fields" | rep "," "
-")
+	#this isn't even my
+	finalform=""
 
 
-#this isn't even my
-finalform=""
+	#INPUT TEMPLATE :
 
+	inputtemplate="
+	<div class=\"fieldelement\">
+	<h3 class=\"fieldname\">FIELD</h3>
 
-#INPUT TEMPLATE :
+	<p class=\"fielddesc\" >DESCRIPTOR</p>
 
-inputtemplate="
-<div class=\"fieldelement\">
-<h3 class=\"fieldname\">FIELD</h3>
+	INPUTFORM
 
-<p class=\"fielddesc\" >DESCRIPTOR</p>
+	</div>
 
-INPUTFORM
+	"
 
-</div>
+	outputtemplate="
 
-"
+	<html>
 
-outputtemplate="
-
-<html>
-
-	<head>
-		<title>TITLE</title>
-	</head>
-	
-	<body>
+		<head>
+			<title>TITLE</title>
+		</head>
 		
-		<h1>TITLE</h1>
+		<body>
+			
+			<h1>TITLE</h1>
+			
+			<p>DESC</p>
+			
+			<form>
+				FORM
+		                <br>
+		                <input id="submitbutton" type=\"submit\" value=\"Submit\">
+
+			</form>
+			
+		</body>
+
+	</html>
+	"
+
+
+
+	#process all fields, one by one
+
+	echo "$fields" > .tmp
+
+	while read line; 
+	do 
+
+		#storing id, removing spaces.
+		id=$( echo $line | del "[" | del "|*]" | rep " " "_" )
 		
-		<p>DESC</p>
+		#html form creation with id
+		inputform=$( echo "<input class=\"field\" type="text" name=\"$id\">")
+
 		
-		<form>
-		  FORM
-                  <br>
-                  <input id="submitbutton" type=\"submit\" value=\"Submit\">
+		#getting input descriptor
+		inputfielddescriptor=$( echo $line | del "*|" | del "]")
 
-		</form>
 		
-	</body>
+		#getting field
+		inputfieldname=$( echo $line | del "[" | del "|*]" )
+		
+		tempform=$( echo $inputtemplate | rep FIELD "$inputfieldname" | rep DESCRIPTOR "$inputfielddescriptor" | rep INPUTFORM "$inputform" )
+		
+		outputtemplate=$( echo $outputtemplate | rep FORM "$tempform
 
-</html>
-"
+			FORM")
+		
+		
+	done < .tmp
 
+	echo "$outputtemplate" |
+	del FORM |
+	rep DESC "$desc" |
+	rep TITLE "$title" > $2
 
+	rm .tmp
 
-#process all fields, one by one
+}
 
-echo "$fields" > .tmp
-
-while read line; 
-do 
-
-	#storing id, removing spaces.
-	id=$( echo $line | del "[" | del "|*]" | rep " " "_" )
-	
-	#html form creation with id
-	inputform=$( echo "<input class=\"field\" type="text" name=\"$id\">")
-
-	
-	#getting input descriptor
-	inputfielddescriptor=$( echo $line | del "*|" | del "]")
-
-	
-	#getting field
-	inputfieldname=$( echo $line | del "[" | del "|*]" )
-	
-	tempform=$( echo $inputtemplate | rep FIELD "$inputfieldname" | rep DESCRIPTOR "$inputfielddescriptor" | rep INPUTFORM "$inputform" )
-	
-	outputtemplate=$( echo $outputtemplate | rep FORM "$tempform
-
-		FORM")
-	
-	
-done < .tmp
-
-echo "$outputtemplate" |
-del FORM |
-rep DESC "$desc" |
-rep TITLE "$title" > $2
-
-rm .tmp
+form "$@"
