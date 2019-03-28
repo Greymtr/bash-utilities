@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#usage receive port file
+
+#
+
+receive()
+{
+
+  while true
+  do
+    nc -l $i >> $2
+  done
+
+}

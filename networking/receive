@@ -1,0 +1,16 @@
+#!/bin/bash
+
+#usage : receive port file
+
+#receive basically listens to a specific port and then writes to a file
+
+
+receive()
+{
+
+  while true
+  do
+    nc -l $i >> $2
+  done
+
+}
