@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#usage : matheval bc expression
+
+matheval()
+{
+
+	echo "$@" | bc -l
+
+}
+
+matheval "$@"
