@@ -1,0 +1,16 @@
+#!/bin/bash
+
+#usage : listen port file
+
+#listen basically listens to a specific port and then writes to a file
+
+
+listen()
+{
+
+  while true
+  do
+    nc -l $i >> $2
+  done
+
+}
